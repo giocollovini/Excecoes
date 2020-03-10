@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import model.excecoes.excecoesDominio;
+
 public class Reservas {
 	
 	private Integer numeroQuarto;
@@ -12,7 +14,11 @@ public class Reservas {
 	
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
-	public Reservas(Integer numeroQuarto, Date entrada, Date saida) {
+	public Reservas(Integer numeroQuarto, Date entrada, Date saida) { 
+		if  (!saida.after(entrada)) {
+			throw new excecoesDominio("Data de saída deve ser após data de entrada");
+		}
+		
 		this.numeroQuarto = numeroQuarto;
 		this.entrada = entrada;
 		this.saida = saida;
@@ -42,20 +48,19 @@ public class Reservas {
 		
 	}
 	
-	public String atualizaDatas(Date entrada, Date saida) {
+	public void atualizaDatas(Date entrada, Date saida) {
 		
 		Date now = new Date();
 		if (entrada.before(now) || saida.before(now)) {
-			return "Data de reserva devem ser no futuro";
+			throw new excecoesDominio("Data de reserva devem ser no futuro");
 		}
 		
 		if  (!saida.after(entrada)) {
-			return "Data de saída deve ser após data de entrada";
+			throw new excecoesDominio("Data de saída deve ser após data de entrada");
 		}
 		
 		this.entrada = entrada;
 		this.saida	= saida;	
-		return null;  //Não deu nenhum erro
 	}
 	
 
