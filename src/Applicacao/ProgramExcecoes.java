@@ -15,6 +15,15 @@ public class ProgramExcecoes {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
+		
+		System.out.println("Programa para ler os dados de uma reserva de hotel(número do quarto,data de entrada e data de saída)");
+		System.out.println("mostrar os dados da reserva, inclusive sua duração em dias. Após ler novas datas de entrada e saída,"); 
+		System.out.println("atualizar a reserva, e mostrar dados atualizados da reserva."); 
+		System.out.println("Regras:"); 
+		System.out.println("	  - Alterações de reserva só para datas futuras");
+		System.out.println("	  - Data de saida sempre maoir que data de entrada");
+		System.out.println();
+		
 		System.out.print("Quarto Número: ");
 		int numero = sc.nextInt();
 		System.out.print("Data Entrada (dd/MM/yyyy): ");
@@ -36,15 +45,12 @@ public class ProgramExcecoes {
 			System.out.print("Data Saída (dd/MM/yyyy): ");
 			saida = sdf.parse(sc.next()); 
 			
-			Date now = new Date();
-			if (entrada.before(now) || saida.before(now)) {
-				System.out.println("Erro na reserva: Data de reserva devem ser no futuro");
-			}
-			else if  (!saida.after(entrada)) {
-				System.out.println("Erro na reserva: Data de saída deve ser após data de entrada");
+			
+			String erro = reservas.atualizaDatas(entrada, saida);
+			if (erro != null ) {
+				System.out.println("Erro na reserva: " + erro);
 			}
 			else {
-				reservas.atualizaDatas(entrada, saida);
 				System.out.println("Reserva: " + reservas);
 			}
 		}

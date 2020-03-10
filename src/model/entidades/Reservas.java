@@ -42,10 +42,20 @@ public class Reservas {
 		
 	}
 	
-	public void atualizaDatas(Date entrada, Date saida) {
+	public String atualizaDatas(Date entrada, Date saida) {
+		
+		Date now = new Date();
+		if (entrada.before(now) || saida.before(now)) {
+			return "Data de reserva devem ser no futuro";
+		}
+		
+		if  (!saida.after(entrada)) {
+			return "Data de saída deve ser após data de entrada";
+		}
 		
 		this.entrada = entrada;
 		this.saida	= saida;	
+		return null;  //Não deu nenhum erro
 	}
 	
 
